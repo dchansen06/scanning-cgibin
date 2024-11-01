@@ -10,7 +10,7 @@ Add this line to `/etc/crontab` to check every 10 minutes for a PDF older than 5
 > \*/10 \* \* \* \*	root	/usr/bin/find /var/www/html/ -maxdepth 1 -name 'scan-\*.pdf' -type f -mmin +5 -delete
 
 Install a few dependencies
-```$ sudo apt install sane-airscan exiftool imagemagick --no-install-suggests --no-install-recommends```
+```$ sudo apt install sane-airscan libimage-exiftool-perl imagemagick --no-install-suggests --no-install-recommends```
 
 Start up your Apache2 webserver and see if it works!
 
