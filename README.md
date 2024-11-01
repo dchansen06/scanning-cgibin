@@ -21,3 +21,5 @@ Will this work out of the box on your specific setup? Almost certainly not (ever
 
 ## Security
 Anyone on your network can access your scan and your computer. Do not expose this to the internet. This program connects to the network, use at your own risk.
+
+Also, I am not sure where loading.webm came from originally, if you would like me to remove it please let me know. Change it to something else if you need to
