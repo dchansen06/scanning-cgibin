@@ -10,7 +10,7 @@ convert /tmp/scan.png /tmp/scan.pdf &&
 
 # make easy to edit name and make avaliable
 exiftool -Title= /tmp/scan.pdf &> /dev/null &&
-mv /tmp/scan.pdf /var/www/html/scanner/scan-$rand.pdf
+mv /tmp/scan.pdf /var/www/html/scan-$rand.pdf
 
 # clean up
 rm /tmp/scan.png
