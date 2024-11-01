@@ -3,7 +3,7 @@
 <head>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
-<meta name="Epson XP-430 Scanner Interface">
+<meta name="SANE Scanner Interface">
 <meta name="description" content="Local SANE scanner">
 <title>Scanner</title>
 <link rel="icon" type="image/x-icon" href="/favicon.ico"/>
@@ -36,7 +36,7 @@ function strcmp(a, b) {
 function sendInfo() {
 	request = new XMLHttpRequest();
 	request.onreadystatechange = getInfo;
-	request.open("GET", "/cgi-bin/preview", true);
+	request.open("GET", "/cgi-bin/preview.sh", true);
 	request.send();
 }
 
@@ -68,7 +68,7 @@ var xml;
 var newWindow;
 
 function startScan(dpi) {
-	var loc = "/cgi-bin/scan" + dpi;
+	var loc = "/cgi-bin/scan" + dpi + ".sh";
 	xml = new XMLHttpRequest();
 	request.abort();
 	document.getElementById("panel").innerHTML = "Starting scan at " + dpi + " DPI...";
