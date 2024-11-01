@@ -17,5 +17,7 @@ Start up your Apache2 webserver and see if it works!
 ## Troubleshooting
 Try running the bash scripts in www/cgi-bin a few times to adjust the settings for your specific scanner setup. If you can ping your SANE-equipped scanner this has a chance of working for it.
 
+Will this work out of the box on your specific setup? Almost certainly not (everyone's setup is unique), but if you need help debugging please open a new issue
+
 ## Security
 Anyone on your network can access your scan and your computer. Do not expose this to the internet. This program connects to the network, use at your own risk.
