@@ -6,7 +6,7 @@
 <meta name="Epson XP-430 Scanner Interface">
 <meta name="description" content="Local SANE scanner">
 <title>Scanner</title>
-<link rel="icon" type="image/x-icon" href="/scanner/favicon.ico"/>
+<link rel="icon" type="image/x-icon" href="/favicon.ico"/>
 
 <style>
 .button {
@@ -26,7 +26,7 @@
 
 <script>
 function loading() {
-	document.getElementById("status").innerHTML = '<video autoplay loop muted playsinline style="width: 100%; height: 100%; border: 0px; margin-top: 0px; cursor: wait; position: absolute; top: 0px; left: 0px; object-fit: contain; background-color: black; right: 0px; bottom: 0px" src="/scanner/loading.webm" type="video/webm"/>';
+	document.getElementById("status").innerHTML = '<video autoplay loop muted playsinline style="width: 100%; height: 100%; border: 0px; margin-top: 0px; cursor: wait; position: absolute; top: 0px; left: 0px; object-fit: contain; background-color: black; right: 0px; bottom: 0px" src="/loading.webm" type="video/webm"/>';
 }
 
 function strcmp(a, b) {
@@ -51,7 +51,7 @@ function getInfo() {
 		}
 		else if (strcmp(request.responseText, "Printer online") == 0) {
 			document.getElementById("status").innerHTML = '<h1>' + request.responseText + ' (Preview)' + '</h1>'
-			document.getElementById("preview").src	 = "/scanner/preview.png";
+			document.getElementById("preview").src	 = "/preview.png";
 			document.getElementById("preview").style.display = "block";
 			document.getElementById("button0").style.display = "initial";
 			document.getElementById("button1").style.display = "initial";
@@ -76,7 +76,7 @@ function startScan(dpi) {
 	setTimeout(loading, 2000);
 
 	newWindow = window.open("", "_blank");
-	newWindow.document.write('<html><head><title>Scanning at ' + dpi + 'DPI...</title></head><body><video autoplay loop muted playsinline style="width: 100%; height: 100%; border: 0px; margin-top: 0px; cursor: wait; position: absolute; top: 0px; left: 0px; object-fit: contain; background-color: black; right: 0px; bottom: 0px" src="/scanner/loading.webm" type="video/webm"/></body></html>');
+	newWindow.document.write('<html><head><title>Scanning at ' + dpi + 'DPI...</title></head><body><video autoplay loop muted playsinline style="width: 100%; height: 100%; border: 0px; margin-top: 0px; cursor: wait; position: absolute; top: 0px; left: 0px; object-fit: contain; background-color: black; right: 0px; bottom: 0px" src="/loading.webm" type="video/webm"/></body></html>');
 
 	xml.onreadystatechange = getScan;
 	xml.open("GET", loc, true);
@@ -95,7 +95,7 @@ function getScan() {
 			alert("The printer may not be on, or another job is still completing. Reloading...");
 			location.reload(true);
 		} else {
-			newWindow.location = "/scanner/" + xml.responseText;
+			newWindow.location = "/" + xml.responseText;
 			document.write("<title>Scan completed, reloading</title>");
 			setTimeout(location.reload(true), 2000);
 		}
