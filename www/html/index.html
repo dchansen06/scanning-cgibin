@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="Epson XP-430 Scanner Interface">
+<meta name="description" content="Local SANE scanner">
+<title>Scanner</title>
+<link rel="icon" type="image/x-icon" href="/scanner/favicon.ico"/>
+
+<style>
+.button {
+  background-color: white;
+  color: black;
+  cursor: pointer;
+  border: 2px solid #555555;
+  border-radius: 8px;
+  transition-duration: 0.4s;
+}
+
+.button:hover {
+  background-color: #555555;
+  color: white;
+}
+</style>
+
+<script>
+function loading() {
+	document.getElementById("status").innerHTML = '<video autoplay loop muted playsinline style="width: 100%; height: 100%; border: 0px; margin-top: 0px; cursor: wait; position: absolute; top: 0px; left: 0px; object-fit: contain; background-color: black; right: 0px; bottom: 0px" src="/scanner/loading.webm" type="video/webm"/>';
+}
+
+function strcmp(a, b) {
+	return (a<b?-1:(a>b?1:0));  
+}
+
+function sendInfo() {
+	request = new XMLHttpRequest();
+	request.onreadystatechange = getInfo;
+	request.open("GET", "/cgi-bin/preview", true);
+	request.send();
+}
+
+function getInfo() {
+	if (request.readyState == 4) {
+		document.getElementById("status").innerHTML = '<h1>' + request.responseText + '</h1>';
+		if (strcmp(request.responseText, "Printer offline") == 0) {
+			document.getElementById("status").innerHTML += '<p>The scanner may also be in use</p><button style="margin-left: 5px" onclick="location.reload(true)" class="button">Check again?</button>';
+			document.getElementById("left").style.display = "none";
+			document.getElementById("right").style.float = "left";
+			setTimeout(() => window.location.reload(), 100000);
+		}
+		else if (strcmp(request.responseText, "Printer online") == 0) {
+			document.getElementById("status").innerHTML = '<h1>' + request.responseText + ' (Preview)' + '</h1>'
+			document.getElementById("preview").src	 = "/scanner/preview.png";
+			document.getElementById("preview").style.display = "block";
+			document.getElementById("button0").style.display = "initial";
+			document.getElementById("button1").style.display = "initial";
+			document.getElementById("button2").style.display = "initial";
+			document.getElementById("button3").style.display = "initial";
+			document.getElementById("remove").style.display = "none";
+		}
+	}
+}
+
+sendInfo();
+
+var xml;
+var newWindow;
+
+function startScan(dpi) {
+	var loc = "/cgi-bin/scan" + dpi;
+	xml = new XMLHttpRequest();
+	request.abort();
+	document.getElementById("panel").innerHTML = "Starting scan at " + dpi + " DPI...";
+	document.getElementById("button").style.display = 'none';
+	setTimeout(loading, 2000);
+
+	newWindow = window.open("", "_blank");
+	newWindow.document.write('<html><head><title>Scanning at ' + dpi + 'DPI...</title></head><body><video autoplay loop muted playsinline style="width: 100%; height: 100%; border: 0px; margin-top: 0px; cursor: wait; position: absolute; top: 0px; left: 0px; object-fit: contain; background-color: black; right: 0px; bottom: 0px" src="/scanner/loading.webm" type="video/webm"/></body></html>');
+
+	xml.onreadystatechange = getScan;
+	xml.open("GET", loc, true);
+	xml.timeout = 300000;
+	xml.ontimeout = function (e) {
+		console.log(e);
+		alert("Timeout, please retry in a minute");
+		location.reload(true);
+	};
+	xml.send();
+}
+
+function getScan() {
+	if (xml.readyState == 4) {
+		if (strcmp(xml.responseText, "") == 0) {
+			alert("The printer may not be on, or another job is still completing. Reloading...");
+			location.reload(true);
+		} else {
+			newWindow.location = "/scanner/" + xml.responseText;
+			document.write("<title>Scan completed, reloading</title>");
+			setTimeout(location.reload(true), 2000);
+		}
+	}
+}
+</script>
+</head>
+<body style="margin-top: 0">
+
+<div style="float: right" id="right">
+	<div id="status"><h1 style="cursor: wait">Loading status...</h1></div>
+	<br><h3><a href="../">Return Home</a></h3>
+	<img id="preview" src="" alt="Preview failed, try reloading the page" width="632" style="cursor: context-menu; display: none" height="877" title="Snapshot taken on page load. This is just a preview. Select your scan quality">
+</div>
+
+<div style="float: left" id="left">
+	<h1 id="panel">Epson XP-430 Scanner Interface</h1>
+
+	<div id="button" style="float: left; margin-left: 5px;">
+		<h3>Select DPI to scan (Unsure? Select 200 DPI)</h3>
+		<p id="remove" style="cursor: wait">Loading...</p>
+		<button id="button0" style="display: none" class="button" onclick="startScan(100)">100 DPI</button>
+		<button id="button1" style="display: none" class="button" onclick="startScan(200)">200 DPI (Homework)</button>
+		<button id="button2" style="display: none" class="button" onclick="startScan(300)">300 DPI</button>
+		<button id="button3" style="display: none" class="button" onclick="startScan(600)">600 DPI</button>
+
+		<br><br><h3>Approximate timing:</h3>
+		<p>100 DPI&emsp;&emsp;20 seconds</p>
+		<p>200 DPI&emsp;&emsp;30 seconds (Homework)</p>
+		<p>300 DPI&emsp;&emsp;45 seconds</p>
+		<p>600 DPI&emsp;&emsp; 3 minutes</p>
+
+		<br><br><h3>Assistance</h3>
+		<p>This is an interface to the SANE Scanner</p>
+		<p>To use it, load this page and then follow the instructions listed</p>
+		<p>1. Select your desired scan quality (200 is a good default)<br>2. A new tab will open and the pdf will be scanned into it<br>3. After the scan is complete the pdf will be save-able with<br>&emsp;Ctrl+S or the download button on the top right<br>4. This page will reset and allow you to scan another page easily</p>
+		<p>If you need additional help please feel free to ask</p>
+	</div>
+</div>
+
+</body>
+</html>
