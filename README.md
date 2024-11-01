@@ -2,7 +2,7 @@
 Template files to integrate into your web server so that you can scan from a SANE compatible scanner
 
 ## Setup
-Install apache and setup cgi-bin with instructions similar to [https://stackoverflow.com/a/33592247](https://stackoverflow.com/a/33592247). Confirm your `apache2.conf` file is setup correctly to execute CGI-BIN. Googling your issue will help immensely
+Install apache and setup cgi-bin with instructions similar to [stackoverflow.com/a/33592247](https://stackoverflow.com/a/33592247) or [httpd.apache.org/docs/2.4/howto/cgi.html](https://httpd.apache.org/docs/2.4/howto/cgi.html). Confirm your `apache2.conf` file is setup correctly to execute CGI-BIN. Googling your issue will help immensely
 
 Move everything from www/ into /var/www/ on your system
 
